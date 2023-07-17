@@ -17,9 +17,5 @@ export default function SetupPage() {
     }
   }, [isOpen, onOpen]);
 
-  return (
-    <div className="p-4">
-      
-    </div>
-  );
+  return null;
 }
