@@ -38,3 +38,31 @@ export async function PATCH(
     return new NextResponse("Internal PATCH Error", { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
+
+    if (!params.storeId) {
+      return new NextResponse("Store Id is required", { status: 400 });
+    }
+
+    const Store = await prismadb.store.deleteMany({
+      where: {
+        id: params.storeId,
+        userId: userId,
+      },
+    });
+
+    return NextResponse.json(Store);
+  } catch (error) {
+    return new NextResponse("Internal DELETE Error", { status: 500 });
+  }
+}
